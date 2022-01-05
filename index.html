@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO-DO-LIST</title>
+
+    <script src="https://kit.fontawesome.com/15707e82f8.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100vh;
+            background-color: rgb(238, 219, 185);
+        }
+        
+        .cont {
+            position: relative;
+            max-width: 800px;
+            padding: 10px;
+            margin: 0 auto;
+        }
+        
+        .addTask {
+            width: 100%;
+            display: flex;
+            padding: 10px 0;
+        }
+        
+        .addTask>input[type="text"] {
+            width: 90%;
+            color: black;
+            border: black;
+            border-bottom: 2px solid black;
+            background: none;
+            padding: 10px;
+            font-size: 22px;
+            outline: none;
+        }
+        
+        .addTask button {
+            margin: 0 10px;
+            background: black;
+            color: white;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .notcomp,
+        .comp {
+            margin: 5px 0;
+            padding: 20px;
+        }
+        
+        h3 {
+            font-size: 25px;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+        }
+        
+        ol {
+            list-style: none;
+            counter-reset: my-counter;
+        }
+        
+        ol li {
+            width: 100%;
+            padding: 20px;
+            margin: 5px 0;
+            background: rgb(212, 122, 122);
+            font-size: 25px;
+            counter-increment: my-counter;
+        }
+        
+        .comp li {
+            background: greenyellow;
+        }
+        
+        ol li::before {
+            content: counter(my-counter);
+            background: rgb(8, 58, 58);
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-block;
+            line-height: 2rem;
+            text-align: center;
+            color: white;
+            margin-right: 0.5rem;
+        }
+        
+        li button {
+            float: right;
+            padding: 5px;
+            font-size: 20px;
+            line-height: 20px;
+            background: none;
+            border: none;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont">
+        <div class="addTask">
+            <input type="text" placeholder="Add a Task" />
+            <button>Add</button>
+        </div>
+        <ol class="notcomp">
+            <h3>Task Not Completed</h3>
+        </ol>
+        <ol class="comp">
+            <h3>Task Completed</h3>
+        </ol>
+    </div>
+</body>
+
+</html>
+<script>
+    var input = document.querySelector("input");
+    var btn = document.querySelector(".addTask > button");
+
+    btn.addEventListener("click", addList);
+
+    input.addEventListener("keyup", (e) => {
+        e.keyCode === 13 ? addList(e) : null;
+    });
+
+    function addList(e) {
+        var notcomp = document.querySelector(".notcomp");
+        var comp = document.querySelector(".comp");
+
+        var newli = document.createElement("li");
+        var checkBtn = document.createElement("button");
+        var delBtn = document.createElement("button");
+
+        checkBtn.innerHTML = `<i class="fas fa-check-circle"></i>`;
+        delBtn.innerHTML = `<i class="fas fa-trash"></i>`;
+
+        if (input.value !== "") {
+            newli.textContent = input.value;
+            input.value = "";
+            notcomp.appendChild(newli);
+            newli.appendChild(checkBtn);
+            newli.appendChild(delBtn);
+        }
+
+        checkBtn.addEventListener("click", function() {
+            var parent = this.parentNode;
+            parent.remove();
+            comp.appendChild(parent);
+            checkBtn.style.display = "none";
+        });
+        delBtn.addEventListener("click", function() {
+            var parent = this.parentNode;
+            parent.remove();
+        });
+    }
+</script>
